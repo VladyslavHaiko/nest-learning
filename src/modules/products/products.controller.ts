@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Head, Header, HttpCode, HttpStatus, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, UsePipes, ValidationPipe } from "@nestjs/common";
 import { CreateProduct } from "./dto/create-product.dto";
 import { ProductsService } from "./products.service";
 
 @Controller("products")
 export class ProductsController {
 
-  constructor(private readonly ProductsService: ProductsService){}
+  constructor(private readonly ProductsService: ProductsService) {
+  }
 
   @Get()
   getAll(): Promise<CreateProduct[]> {
@@ -13,18 +14,15 @@ export class ProductsController {
   }
 
   @Get(":id")
-  getOne(@Param('id') id: string) {
+  getOne(@Param("id") id: string) {
     return this.ProductsService.getById(id);
   }
 
   @Post()
+  @UsePipes(new ValidationPipe())
   @HttpCode(HttpStatus.OK)
   async newProduct(@Body() product: CreateProduct): Promise<CreateProduct> {
-    try {
-      return await this.ProductsService.createProduct(product);
-    }catch (e) {
-      console.log(e);
-    }
+    return await this.ProductsService.createProduct(product);
   }
 
 }
