@@ -1,18 +1,8 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  Matches,
-  Max,
-  MaxLength,
-  Min,
-  MinLength
-} from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, Matches, Max, MaxLength, Min, MinLength } from "class-validator";
 
-export class CreateUserDto {
+export class UserDto {
 
-
-  _id: string;
+  _id?: string;
 
   @IsString()
   @IsNotEmpty()
